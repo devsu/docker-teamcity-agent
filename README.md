@@ -8,13 +8,13 @@ To use an agent, you will need a Teamcity Server. You can use [Teamcity Server D
 
 ### Usage
 
-Make sure that your Teamcity Server is running. Then run:
+Make sure that your Teamcity Server is running, and you finished the install process. Then run:
 
 `docker run -d -P --name teamcity-agent-1 --env TEAMCITY_SERVER="http://url-of-teamcity-server:8111" -v /your/path:/home/teamcity devsu/teamcity-agent:base`
 
-Since the agent is downloaded from the running teamcity server, you don't have to worry on matching the versions of the agents with the servers. Actually, the tags on the agents are related to the versions of the additional packages that it includes.
+Make sure to change the URL of teamcity as well as the folder of the volume. If the agent can't write on that folder, it will fail to run.
 
-You can take a look of the available variants at the tags page on Docker Hub.
+Since the agent is downloaded from the running teamcity server, you don't have to worry on matching the versions of the agents with the servers. Actually, we are not managing any versions for the agents.
 
 ### Variants
 
@@ -22,7 +22,7 @@ Since the agent can have many configurations, depending on the requirements, we 
 
 #### Base
 
-It adds nothing but a script to download the agent from teamcity server, configure it and run it. Inspired on [centos7-teamcity-agent](https://bitbucket.org/ariya/docker-centos/src/2669cae3c4e7/centos7-teamcity-agent/?at=master).
+It adds a script to download the agent from teamcity server, configure it and run it. Inspired on [centos7-teamcity-agent](https://bitbucket.org/ariya/docker-centos/src/2669cae3c4e7/centos7-teamcity-agent/?at=master).
 
 ## Under the hood
 
