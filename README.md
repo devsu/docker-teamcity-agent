@@ -18,13 +18,17 @@ Since the agent is downloaded from the running teamcity server, you don't have t
 
 ### Variants
 
-Since the agent can have many configurations, depending on the requirements, we have prepared a few images:
+Since the agent can have many configurations, depending on the requirements, we have prepared a few images.
 
-- **base**: Adds a script to download the agent from teamcity server, configure it and run it. Inspired on [centos7-teamcity-agent](https://bitbucket.org/ariya/docker-centos/src/2669cae3c4e7/centos7-teamcity-agent/?at=master).
-- **node4**: Adds nodejs 4, along with the 2 most popular task runners for node: Gulp and Grunt.
-- **node4-ruby**: Built over the node4 variant, it also adds ruby and ruby-compass.
-- **node4-ruby-php5**: Built over the node4-ruby variant, it also adds php5, php5-mongo and php5-mysql.
-- **node5** Same as node4, except that it's using node 5.
+We added each technology in top of the previous, because usually we want the teamcity agent to be able to work with multiple technologies. For example you can have an angular app (so you need node.js and gulp to compile it), and a PHP app (which might need ruby/compass to compile the styles).
+
+We started adding first the technologies that provide most popular task runners. (Java is already installed in the base image, so we don't consider it as a variant).
+
+All the images are built on top of the **base** variant.
+
+The **base** variant adds a script to download the agent from teamcity server, configure it and run it. Inspired on [centos7-teamcity-agent](https://bitbucket.org/ariya/docker-centos/src/2669cae3c4e7/centos7-teamcity-agent/?at=master).
+
+The folder names of the other variants are self explanatory, and you can take a look to their Dockerfiles to see what they add.
 
 ## Under the hood
 
