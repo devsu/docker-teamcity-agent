@@ -20,9 +20,10 @@ Since the agent is downloaded from the running teamcity server, you don't have t
 
 Since the agent can have many configurations, depending on the requirements, we have prepared a few images:
 
-#### Base
-
-It adds a script to download the agent from teamcity server, configure it and run it. Inspired on [centos7-teamcity-agent](https://bitbucket.org/ariya/docker-centos/src/2669cae3c4e7/centos7-teamcity-agent/?at=master).
+- **base**: Adds a script to download the agent from teamcity server, configure it and run it. Inspired on [centos7-teamcity-agent](https://bitbucket.org/ariya/docker-centos/src/2669cae3c4e7/centos7-teamcity-agent/?at=master).
+- **node4**: Adds nodejs 4, along with the 2 most popular task runners for node: Gulp and Grunt.
+- **node4+ruby**: Built over the node4 variant, it also adds ruby and ruby-compass.
+- **node5** Same as node4, except that it's using node js v.5.
 
 ## Under the hood
 
