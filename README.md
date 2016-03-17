@@ -22,7 +22,8 @@ Since the agent can have many configurations, depending on the requirements, we 
 
 - **base**: Adds a script to download the agent from teamcity server, configure it and run it. Inspired on [centos7-teamcity-agent](https://bitbucket.org/ariya/docker-centos/src/2669cae3c4e7/centos7-teamcity-agent/?at=master).
 - **node4**: Adds nodejs 4, along with the 2 most popular task runners for node: Gulp and Grunt.
-- **node4+ruby**: Built over the node4 variant, it also adds ruby and ruby-compass.
+- **node4-ruby**: Built over the node4 variant, it also adds ruby and ruby-compass.
+- **node4-ruby-php5**: Built over the node4-ruby variant, it also adds php5, php5-mongo and php5-mysql.
 - **node5** Same as node4, except that it's using node 5.
 
 ## Under the hood
