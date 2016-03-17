@@ -1,6 +1,9 @@
 FROM java:8
 MAINTAINER Cesar Salazar <csalazar@devsu.com>
 
+RUN apt-get update
+RUN apt-get install -y sudo
+
 RUN useradd -ms /bin/bash teamcity
 ADD start-agent.sh /start-agent.sh
 
