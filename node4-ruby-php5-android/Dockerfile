@@ -1,11 +1,14 @@
 FROM devsu/teamcity-agent:node4-ruby-php5
 MAINTAINER Cesar Salazar <csalazar@devsu.com>
 
+ARG TERM=linux
+ARG DEBIAN_FRONTEND=noninteractive
+
 # ANDROID
 
 # Dependencies
 RUN dpkg --add-architecture i386
-RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --force-yes expect libc6-i386 lib32stdc++6 lib32gcc1 lib32ncurses5 lib32z1 libgl1-mesa-dev qemu-kvm libvirt-bin bridge-utils kmod
+RUN apt-get update && apt-get install -y --force-yes expect libc6-i386 lib32stdc++6 lib32gcc1 lib32ncurses5 lib32z1 libgl1-mesa-dev qemu-kvm libvirt-bin bridge-utils kmod
 
 # Setup environment variables
 ENV ANDROID_HOME /opt/android-sdk-linux
@@ -19,7 +22,14 @@ RUN cd /opt && wget --output-document=android-sdk.tgz http://dl.google.com/andro
 RUN cp -r ${ANDROID_HOME}/tools ${ANDROID_HOME}/tools2
 
 # Install SDK elements
-RUN echo 'y' | ${ANDROID_HOME}/tools2/android update sdk --all --no-ui --filter platform-tools,tools,build-tools-23.0.2,android-23,extra-android-support,extra-android-m2repository,extra-google-m2repository,extra-google-google_play_services,addon-google_apis-google-23,extra-google-google_play_services,extra-google-play_apk_expansion,extra-google-play_billing,extra-google-play_licensing,extra-google-simulators,extra-google-webdriver,sys-img-armeabi-v7a-android-23,sys-img-x86_64-android-23,sys-img-armeabi-v7a-addon-google_apis-google-23,sys-img-x86_64-addon-google_apis-google-23
+RUN expect -c ' \
+set timeout -1; \
+spawn sudo ${ANDROID_HOME}/tools2/android update sdk --all --no-ui --filter platform-tools,tools,build-tools-23.0.2,android-23,extra-android-support,extra-android-m2repository,extra-google-m2repository,extra-google-google_play_services,addon-google_apis-google-23,extra-google-google_play_services,extra-google-play_apk_expansion,extra-google-play_billing,extra-google-play_licensing,extra-google-simulators,extra-google-webdriver,sys-img-armeabi-v7a-android-23,sys-img-x86_64-android-23,sys-img-armeabi-v7a-addon-google_apis-google-23,sys-img-x86_64-addon-google_apis-google-23; \
+expect { \
+    "Do you accept the license" { exp_send "y\r" ; exp_continue } \
+    eof \
+} \
+'
 
 RUN rm -rf /opt/android-sdk-linux/tools
 RUN unzip /opt/android-sdk-linux/temp/tools_r24.4.1-linux.zip -d /opt/android-sdk-linux
