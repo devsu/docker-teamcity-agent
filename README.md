@@ -22,7 +22,7 @@ Since the agent can have many configurations, depending on the requirements, we 
 
 We added each technology in top of the previous, because usually we want the teamcity agent to be able to work with multiple technologies. For example you can have an angular app (so you need node.js and gulp to compile it), and a PHP app (which might need ruby/compass to compile the styles).
 
-We started adding first the technologies that provide most popular task runners. (Java is already installed in the base image, so we don't consider it as a variant).
+We started adding first the technologies that provide most popular task runners. (Java and Python are already installed in the base image).
 
 All the images are built on top of the **base** variant.
 
