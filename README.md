@@ -30,6 +30,8 @@ The **base** variant adds a script to download the agent from teamcity server, c
 
 The folder names of the other variants are self explanatory, and you can take a look to their Dockerfiles to see what they add.
 
+You can find all the variants as tags in [Docker Hub](https://hub.docker.com/r/devsu/teamcity-agent/tags/). **latest** is the same as **base**.
+
 ## Under the hood
 
 - The images are built from [java:8](https://github.com/docker-library/openjdk/blob/master/openjdk-8-jdk/Dockerfile) (installs unzip, openjdk-8-jdk)
