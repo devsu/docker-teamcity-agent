@@ -24,7 +24,7 @@ RUN cp -r ${ANDROID_HOME}/tools ${ANDROID_HOME}/tools2
 # Install SDK elements
 RUN expect -c ' \
 set timeout -1; \
-spawn sudo ${ANDROID_HOME}/tools2/android update sdk --all --no-ui --filter platform-tools,tools,build-tools-23.0.2,android-23,extra-android-support,extra-android-m2repository,extra-google-m2repository,extra-google-google_play_services,addon-google_apis-google-23,extra-google-google_play_services,extra-google-play_apk_expansion,extra-google-play_billing,extra-google-play_licensing,extra-google-simulators,extra-google-webdriver,sys-img-armeabi-v7a-android-23,sys-img-x86_64-android-23,sys-img-armeabi-v7a-addon-google_apis-google-23,sys-img-x86_64-addon-google_apis-google-23; \
+spawn sudo /opt/android-sdk-linux/tools2/android update sdk --all --no-ui --filter platform-tools,tools,build-tools-23.0.2,android-23,extra-android-support,extra-android-m2repository,extra-google-m2repository,extra-google-google_play_services,addon-google_apis-google-23,extra-google-google_play_services,extra-google-play_apk_expansion,extra-google-play_billing,extra-google-play_licensing,extra-google-simulators,extra-google-webdriver,sys-img-armeabi-v7a-android-23,sys-img-x86_64-android-23,sys-img-armeabi-v7a-addon-google_apis-google-23,sys-img-x86_64-addon-google_apis-google-23; \
 expect { \
     "Do you accept the license" { exp_send "y\r" ; exp_continue } \
     eof \
