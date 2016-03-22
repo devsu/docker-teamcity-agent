@@ -10,6 +10,9 @@ ARG DEBIAN_FRONTEND=noninteractive
 RUN dpkg --add-architecture i386
 RUN apt-get update && apt-get install -y --force-yes expect libc6-i386 lib32stdc++6 lib32gcc1 lib32ncurses5 lib32z1 libgl1-mesa-dev qemu-kvm libvirt-bin bridge-utils kmod
 
+# Free some space
+RUN apt-get clean
+
 # Setup environment variables
 ENV ANDROID_HOME /opt/android-sdk-linux
 ENV PATH ${PATH}:${ANDROID_HOME}/tools:${ANDROID_HOME}/platform-tools
