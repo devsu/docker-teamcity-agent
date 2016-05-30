@@ -1,8 +1,7 @@
 FROM java:8
 MAINTAINER Cesar Salazar <csalazar@devsu.com>
 
-RUN apt-get update
-RUN apt-get install -y sudo build-essential
+RUN apt-get update && apt-get install -y sudo build-essential
 
 RUN useradd -ms /bin/bash teamcity
 ADD start-agent.sh /start-agent.sh
