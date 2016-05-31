@@ -8,10 +8,9 @@ ARG DEBIAN_FRONTEND=noninteractive
 
 # Dependencies
 RUN dpkg --add-architecture i386
-RUN apt-get update && apt-get install -y --force-yes expect libc6-i386 lib32stdc++6 lib32gcc1 lib32ncurses5 lib32z1 libgl1-mesa-dev qemu-kvm libvirt-bin bridge-utils kmod
-
-# Free some space
-RUN apt-get clean
+RUN apt-get update \
+    && apt-get install -y --force-yes expect libc6-i386 lib32stdc++6 lib32gcc1 lib32ncurses5 lib32z1 libgl1-mesa-dev qemu-kvm libvirt-bin bridge-utils kmod \
+    && rm -rf /var/lib/apt/lists/*
 
 # Setup environment variables
 ENV ANDROID_HOME /opt/android-sdk-linux
@@ -21,15 +20,16 @@ ENV ADB_INSTALL_TIMEOUT=8
 # Install Android SDK
 RUN cd /opt && wget --output-document=android-sdk.tgz http://dl.google.com/android/android-sdk_r24.4.1-linux.tgz && tar xzf android-sdk.tgz && rm -f android-sdk.tgz
 
-# We are using the tools2 folder to install the SDK elements because if we run the command from tools, it won't work.
-RUN cp -r ${ANDROID_HOME}/tools ${ANDROID_HOME}/tools2
+# 1. We are using the tools2 folder to install the SDK elements because if we run the command from tools, it won't work.
+# TODO: Verify if this is still true
+# 2. Install SDK elements using a hack to accept the licenses
 
-# Install SDK elements using a hack to accept the licenses
-RUN ( sleep 5 && while [ 1 ]; do sleep 1; echo y; done ) | ${ANDROID_HOME}/tools2/android update sdk --no-ui
-
-RUN rm -rf /opt/android-sdk-linux/tools
-RUN unzip /opt/android-sdk-linux/temp/tools_r24.4.1-linux.zip -d /opt/android-sdk-linux
-RUN rm -rf /opt/android-sdk-linux/temp/*
+RUN cp -r ${ANDROID_HOME}/tools ${ANDROID_HOME}/tools2 \
+    && ( sleep 5 && while [ 1 ]; do sleep 1; echo y; done ) | ${ANDROID_HOME}/tools2/android update sdk --no-ui \
+    && rm -rf /opt/android-sdk-linux/tools \
+    && unzip /opt/android-sdk-linux/temp/tools_r24.4.1-linux.zip -d /opt/android-sdk-linux \
+    && rm -rf /opt/android-sdk-linux/temp/* \
+    && rm -rf ${ANDROID_HOME}/tools2
 
 RUN which adb
 RUN which android
