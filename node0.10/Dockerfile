@@ -15,4 +15,4 @@ RUN ln -sf /opt/nodejs/bin/node /usr/bin/node
 RUN ln -sf /opt/nodejs/bin/npm /usr/bin/npm
 
 # Install popular task runners globally
-RUN npm install -g grunt-cli gulp
+RUN npm install -g grunt-cli gulp bower
