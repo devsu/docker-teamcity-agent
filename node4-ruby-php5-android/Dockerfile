@@ -27,7 +27,7 @@ RUN cd /opt && wget --output-document=android-sdk.tgz http://dl.google.com/andro
 RUN cp -r ${ANDROID_HOME}/tools ${ANDROID_HOME}/tools2 \
     && ( sleep 5 && while [ 1 ]; do sleep 1; echo y; done ) | ${ANDROID_HOME}/tools2/android update sdk --no-ui \
     && rm -rf /opt/android-sdk-linux/tools \
-    && unzip /opt/android-sdk-linux/temp/tools_r24.4.1-linux.zip -d /opt/android-sdk-linux \
+    && unzip /opt/android-sdk-linux/temp/tools_*.zip -d /opt/android-sdk-linux \
     && rm -rf /opt/android-sdk-linux/temp/* \
     && rm -rf ${ANDROID_HOME}/tools2
 
