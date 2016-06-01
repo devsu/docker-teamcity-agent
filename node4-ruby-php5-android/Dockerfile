@@ -41,4 +41,4 @@ RUN which android
 
 # Set teamcity as the owner of ANDROID folders
 RUN chown -R teamcity:teamcity ${ANDROID_HOME}
-RUN chown -R teamcity:teamcity /home/teamcity/.android
+# RUN chown -R teamcity:teamcity /home/teamcity/.android
