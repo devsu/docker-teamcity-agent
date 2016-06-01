@@ -35,9 +35,9 @@ RUN which adb
 RUN which android
 
 # Create emulators
-RUN echo "no" | /opt/android-sdk-linux/tools/android create avd --force --device "Nexus 5" --name myandroid-23-nexus5-x86 --target android-23 --abi x86_64 --skin WVGA800 --sdcard 512M -p /home/teamcity/.android/avd
+# RUN echo "no" | /opt/android-sdk-linux/tools/android create avd --force --device "Nexus 5" --name myandroid-23-nexus5-x86 --target android-23 --abi "default/x86" --skin WVGA800 --sdcard 512M -p /home/teamcity/.android/avd
 
-RUN echo "no" | /opt/android-sdk-linux/tools/android create avd --force --device "Nexus 5" --name myandroid-23-nexus5 --target android-23 --abi armeabi-v7a --skin WVGA800 --sdcard 512M -p /home/teamcity/.android/avd
+# RUN echo "no" | /opt/android-sdk-linux/tools/android create avd --force --device "Nexus 5" --name myandroid-23-nexus5 --target android-23 --abi "default/armeabi-v7a" --skin WVGA800 --sdcard 512M -p /home/teamcity/.android/avd
 
 # Set teamcity as the owner of ANDROID folders
 RUN chown -R teamcity:teamcity ${ANDROID_HOME}
