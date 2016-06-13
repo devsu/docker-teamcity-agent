@@ -42,13 +42,17 @@ VOLUME ["/home/teamcity/.android"]
 
 RUN mkdir -p /home/teamcity/.android/avd
 
-RUN cp -r /root/.android /home/teamcity/.android
-
 # Create emulators
 RUN echo "no" | /opt/android-sdk-linux/tools/android create avd --force --device "Nexus 5" --name myandroid-23-nexus5-x86 --target android-23 --abi default/x86 --skin WVGA800 --sdcard 512M -p /home/teamcity/.android/avd
 
 # RUN echo "no" | /opt/android-sdk-linux/tools/android create avd --force --device "Nexus 5" --name myandroid-23-nexus5 --target android-23 --abi "default/armeabi-v7a" --skin WVGA800 --sdcard 512M -p /home/teamcity/.android/avd
 
 # Set teamcity as the owner of ANDROID folders
+RUN cp -r /root/.android /home/teamcity/
 RUN chown -R teamcity:teamcity ${ANDROID_HOME}
 RUN chown -R teamcity:teamcity /home/teamcity/.android
+
+# Trying to run emulator with HW acceleration
+ADD ./kvm-mknod.sh /root/kvm-mknod.sh
+RUN chmod +x /root/kvm-mknod.sh
+CMD ["/bin/bash","/root/kvm-mknod.sh"]
