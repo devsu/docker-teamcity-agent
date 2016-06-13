@@ -37,6 +37,13 @@ RUN ( sleep 5 && while [ 1 ]; do sleep 1; echo y; done ) | ${ANDROID_HOME}/tools
 RUN which adb
 RUN which android
 
+# Creating .android folder
+VOLUME ["/home/teamcity/.android"]
+
+RUN mkdir -p /home/teamcity/.android/avd
+
+RUN cp -r /root/.android /home/teamcity/.android
+
 # Create emulators
 RUN echo "no" | /opt/android-sdk-linux/tools/android create avd --force --device "Nexus 5" --name myandroid-23-nexus5-x86 --target android-23 --abi default/x86_64 --skin WVGA800 --sdcard 512M -p /home/teamcity/.android/avd
 
