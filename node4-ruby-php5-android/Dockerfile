@@ -31,11 +31,14 @@ RUN cp -r ${ANDROID_HOME}/tools ${ANDROID_HOME}/tools2 \
     && rm -rf /opt/android-sdk-linux/temp/* \
     && rm -rf ${ANDROID_HOME}/tools2
 
+# Installing dependencies for running x86_64 kernel
+RUN ( sleep 5 && while [ 1 ]; do sleep 1; echo y; done ) | ${ANDROID_HOME}/tools/android update sdk -a --no-ui --filter sys-img-x86_64-android-23
+
 RUN which adb
 RUN which android
 
 # Create emulators
-# RUN echo "no" | /opt/android-sdk-linux/tools/android create avd --force --device "Nexus 5" --name myandroid-23-nexus5-x86 --target android-23 --abi "default/x86" --skin WVGA800 --sdcard 512M -p /home/teamcity/.android/avd
+RUN echo "no" | /opt/android-sdk-linux/tools/android create avd --force --device "Nexus 5" --name myandroid-23-nexus5-x86 --target android-23 --abi default/x86_64 --skin WVGA800 --sdcard 512M -p /home/teamcity/.android/avd
 
 # RUN echo "no" | /opt/android-sdk-linux/tools/android create avd --force --device "Nexus 5" --name myandroid-23-nexus5 --target android-23 --abi "default/armeabi-v7a" --skin WVGA800 --sdcard 512M -p /home/teamcity/.android/avd
 
