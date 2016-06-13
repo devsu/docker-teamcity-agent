@@ -25,20 +25,34 @@ RUN cd /opt && wget --output-document=android-sdk.tgz http://dl.google.com/andro
 # 2. Install SDK elements using a hack to accept the licenses
 
 RUN cp -r ${ANDROID_HOME}/tools ${ANDROID_HOME}/tools2 \
-    && ( sleep 5 && while [ 1 ]; do sleep 1; echo y; done ) | ${ANDROID_HOME}/tools2/android update sdk --no-ui \
+    && ( sleep 5 && while [ 1 ]; do sleep 1; echo y; done ) | ${ANDROID_HOME}/tools2/android update sdk --no-ui --filter 1,2,3,5,10,23,26 \
     && rm -rf /opt/android-sdk-linux/tools \
     && unzip /opt/android-sdk-linux/temp/tools_*.zip -d /opt/android-sdk-linux \
     && rm -rf /opt/android-sdk-linux/temp/* \
     && rm -rf ${ANDROID_HOME}/tools2
 
+# Installing dependencies for running x86_64 kernel
+RUN ( sleep 5 && while [ 1 ]; do sleep 1; echo y; done ) | ${ANDROID_HOME}/tools/android update sdk -a --no-ui --filter sys-img-x86-android-23
+
 RUN which adb
 RUN which android
 
+# Creating .android folder
+VOLUME ["/home/teamcity/.android"]
+
+RUN mkdir -p /home/teamcity/.android/avd
+
 # Create emulators
-# RUN echo "no" | /opt/android-sdk-linux/tools/android create avd --force --device "Nexus 5" --name myandroid-23-nexus5-x86 --target android-23 --abi "default/x86" --skin WVGA800 --sdcard 512M -p /home/teamcity/.android/avd
+RUN echo "no" | /opt/android-sdk-linux/tools/android create avd --force --device "Nexus 5" --name myandroid-23-nexus5-x86 --target android-23 --abi default/x86 --skin WVGA800 --sdcard 512M -p /home/teamcity/.android/avd
 
 # RUN echo "no" | /opt/android-sdk-linux/tools/android create avd --force --device "Nexus 5" --name myandroid-23-nexus5 --target android-23 --abi "default/armeabi-v7a" --skin WVGA800 --sdcard 512M -p /home/teamcity/.android/avd
 
 # Set teamcity as the owner of ANDROID folders
+RUN cp -r /root/.android /home/teamcity/
 RUN chown -R teamcity:teamcity ${ANDROID_HOME}
-# RUN chown -R teamcity:teamcity /home/teamcity/.android
+RUN chown -R teamcity:teamcity /home/teamcity/.android
+
+# Trying to run emulator with HW acceleration
+ADD ./kvm-mknod.sh /root/kvm-mknod.sh
+RUN chmod +x /root/kvm-mknod.sh
+CMD ["/bin/bash","/root/kvm-mknod.sh"]
