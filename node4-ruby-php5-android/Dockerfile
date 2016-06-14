@@ -16,6 +16,7 @@ RUN apt-get update \
 ENV ANDROID_HOME /opt/android-sdk-linux
 ENV PATH ${PATH}:${ANDROID_HOME}/tools:${ANDROID_HOME}/platform-tools
 ENV ADB_INSTALL_TIMEOUT=8
+ENV ANDROID_AVD_HOME /home/teamcity/.android/avd
 
 # Install Android SDK
 RUN cd /opt && wget --output-document=android-sdk.tgz http://dl.google.com/android/android-sdk_r24.4.1-linux.tgz && tar xzf android-sdk.tgz && rm -f android-sdk.tgz
@@ -34,16 +35,10 @@ RUN cp -r ${ANDROID_HOME}/tools ${ANDROID_HOME}/tools2 \
 # Installing dependencies for running x86_64 kernel
 RUN ( sleep 5 && while [ 1 ]; do sleep 1; echo y; done ) | ${ANDROID_HOME}/tools/android update sdk -a --no-ui --filter sys-img-x86-android-23
 
-RUN which adb
-RUN which android
-
-# Creating .android folder
-VOLUME ["/home/teamcity/.android"]
-
 RUN mkdir -p /home/teamcity/.android/avd
 
 # Create emulators
-RUN echo "no" | /opt/android-sdk-linux/tools/android create avd --force --device "Nexus 5" --name myandroid-23-nexus5-x86 --target android-23 --abi default/x86 --skin WVGA800 --sdcard 512M -p /home/teamcity/.android/avd
+RUN echo "no" | /opt/android-sdk-linux/tools/android create avd --force --device "Nexus 5" --name myandroid-23-nexus5-x86 --target android-23 --abi default/x86 --skin WVGA800 --sdcard 512M
 
 # RUN echo "no" | /opt/android-sdk-linux/tools/android create avd --force --device "Nexus 5" --name myandroid-23-nexus5 --target android-23 --abi "default/armeabi-v7a" --skin WVGA800 --sdcard 512M -p /home/teamcity/.android/avd
 
@@ -53,7 +48,6 @@ RUN chown -R teamcity:teamcity ${ANDROID_HOME}
 RUN chown -R teamcity:teamcity /home/teamcity/.android
 
 # Trying to run emulator with HW acceleration
-ADD kvm-mknod.sh /root/kvm-mknod.sh
-ADD setup-agent.sh /setup-agent.sh
-ADD entrypoint.sh /root/entrypoint.sh
-ENTRYPOINT ["/root/entrypoint.sh"]
+ADD kvm-mknod.sh /kvm-mknod.sh
+ADD entrypoint.sh /entrypoint.sh
+CMD ["/bin/bash","/root/entrypoint.sh"]
