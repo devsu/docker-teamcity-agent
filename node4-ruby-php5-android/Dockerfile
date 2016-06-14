@@ -53,6 +53,7 @@ RUN chown -R teamcity:teamcity ${ANDROID_HOME}
 RUN chown -R teamcity:teamcity /home/teamcity/.android
 
 # Trying to run emulator with HW acceleration
-ADD ./kvm-mknod.sh /root/kvm-mknod.sh
-RUN chmod +x /root/kvm-mknod.sh
-CMD ["/bin/bash","/root/kvm-mknod.sh"]
+ADD kvm-mknod.sh /root/kvm-mknod.sh
+ADD setup-agent.sh /setup-agent.sh
+ADD entrypoint.sh /root/entrypoint.sh
+ENTRYPOINT ["/root/entrypoint.sh"]
