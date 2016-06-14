@@ -45,7 +45,7 @@ RUN echo "no" | /opt/android-sdk-linux/tools/android create avd --force --device
 # Set teamcity as the owner of ANDROID folders
 RUN cp -r /root/.android /home/teamcity/
 RUN chown -R teamcity:teamcity ${ANDROID_HOME}
-RUN chown -R teamcity:teamcity /home/teamcity/.android
+RUN chown -R teamcity:teamcity /home/teamcity/
 
 # Trying to run emulator with HW acceleration
 ADD kvm-mknod.sh /kvm-mknod.sh
