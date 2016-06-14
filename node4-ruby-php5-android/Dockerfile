@@ -50,4 +50,4 @@ RUN chown -R teamcity:teamcity /home/teamcity/.android
 # Trying to run emulator with HW acceleration
 ADD kvm-mknod.sh /kvm-mknod.sh
 ADD entrypoint.sh /entrypoint.sh
-CMD ["/bin/bash","/root/entrypoint.sh"]
+CMD ["/bin/bash","/entrypoint.sh"]
