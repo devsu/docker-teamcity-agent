@@ -49,4 +49,6 @@ ADD entrypoint.sh /entrypoint.sh
 ADD start-emulator.sh /home/teamcity/start-emulator.sh
 ADD stop-emulator.sh /home/teamcity/stop-emulator.sh
 
+RUN chmod +x /home/teamcity/start-emulator.sh && chmod +x /home/teamcity/stop-emulator.sh
+
 CMD ["/bin/bash","/entrypoint.sh"]
