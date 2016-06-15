@@ -9,7 +9,7 @@ ARG DEBIAN_FRONTEND=noninteractive
 # Dependencies
 RUN dpkg --add-architecture i386
 RUN apt-get update \
-    && apt-get install -y --force-yes expect libc6-i386 lib32stdc++6 lib32gcc1 lib32ncurses5 lib32z1 libgl1-mesa-dev qemu-kvm libvirt-bin bridge-utils kmod \
+    && apt-get install -y --force-yes expect libc6-i386 lib32stdc++6 lib32gcc1 lib32ncurses5 lib32z1 libgl1-mesa-dev qemu-kvm libvirt-bin bridge-utils kmod rsync \
     && rm -rf /var/lib/apt/lists/*
 
 # Setup environment variables
@@ -39,9 +39,6 @@ RUN ( sleep 5 && while [ 1 ]; do sleep 1; echo y; done ) | ${ANDROID_HOME}/tools
 RUN echo "no" | /opt/android-sdk-linux/tools/android create avd --force --device "Nexus 5" --name myandroid-23-nexus5-x86 --target android-23 --abi default/x86 --skin WVGA800 --sdcard 512M
 
 # RUN echo "no" | /opt/android-sdk-linux/tools/android create avd --force --device "Nexus 5" --name myandroid-23-nexus5 --target android-23 --abi "default/armeabi-v7a" --skin WVGA800 --sdcard 512M -p /home/teamcity/.android/avd
-
-# Set teamcity as the owner of ANDROID folders
-RUN chown -R teamcity:teamcity ${ANDROID_HOME}
 
 # Trying to run emulator with HW acceleration
 ADD kvm-mknod.sh /kvm-mknod.sh
