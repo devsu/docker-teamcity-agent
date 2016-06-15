@@ -46,7 +46,7 @@ ADD kvm-mknod.sh /kvm-mknod.sh
 ADD entrypoint.sh /entrypoint.sh
 
 # Setting scripts for emulator start and stop
-ADD start-emulator.sh /start-emulator.sh
-ADD stop-emulator.sh /stop-emulator.sh
+ADD start-emulator.sh /home/teamcity/start-emulator.sh
+ADD stop-emulator.sh /home/teamcity/stop-emulator.sh
 
 CMD ["/bin/bash","/entrypoint.sh"]
