@@ -9,7 +9,7 @@ ARG DEBIAN_FRONTEND=noninteractive
 # Dependencies
 RUN dpkg --add-architecture i386
 RUN apt-get update \
-    && apt-get install -y --force-yes expect libc6-i386 lib32stdc++6 lib32gcc1 lib32ncurses5 lib32z1 libgl1-mesa-dev qemu-kvm libvirt-bin bridge-utils kmod \
+    && apt-get install -y --force-yes expect libc6-i386 lib32stdc++6 lib32gcc1 lib32ncurses5 lib32z1 libgl1-mesa-dev qemu-kvm libvirt-bin bridge-utils kmod qt5-default \
     && rm -rf /var/lib/apt/lists/*
 
 # Setup environment variables
