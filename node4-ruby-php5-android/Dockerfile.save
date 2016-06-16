@@ -9,7 +9,7 @@ ARG DEBIAN_FRONTEND=noninteractive
 # Dependencies
 RUN dpkg --add-architecture i386
 RUN apt-get update \
-    && apt-get install -y --force-yes expect libc6-i386 lib32stdc++6 lib32gcc1 lib32ncurses5 lib32z1 libgl1-mesa-dev qemu-kvm libvirt-bin bridge-utils kmod qt5-default \
+    && apt-get install -y --force-yes expect libc6-i386 lib32stdc++6 lib32gcc1 lib32ncurses5 lib32z1 libgl1-mesa-dev qemu-kvm libvirt-bin bridge-utils kmod \
     && rm -rf /var/lib/apt/lists/*
 
 # Setup environment variables
@@ -25,12 +25,12 @@ RUN cd /opt && wget --output-document=android-sdk.tgz http://dl.google.com/andro
 # TODO: Verify if this is still true
 # 2. Install SDK elements using a hack to accept the licenses
 
-RUN cp -r ${ANDROID_HOME}/tools ${ANDROID_HOME}/tools2 \
-    && ( sleep 5 && while [ 1 ]; do sleep 1; echo y; done ) | ${ANDROID_HOME}/tools2/android update sdk --no-ui \
-    && rm -rf /opt/android-sdk-linux/tools \
-    && unzip /opt/android-sdk-linux/temp/tools_*.zip -d /opt/android-sdk-linux \
-    && rm -rf /opt/android-sdk-linux/temp/* \
-    && rm -rf ${ANDROID_HOME}/tools2
+#RUN cp -r ${ANDROID_HOME}/tools ${ANDROID_HOME}/tools2 \
+RUN ( sleep 5 && while [ 1 ]; do sleep 1; echo y; done ) | ${ANDROID_HOME}/tools/android update sdk --no-ui 
+#    && rm -rf /opt/android-sdk-linux/tools \
+#    && unzip /opt/android-sdk-linux/temp/tools_*.zip -d /opt/android-sdk-linux \
+#    && rm -rf /opt/android-sdk-linux/temp/* \
+#    && rm -rf ${ANDROID_HOME}/tools2
 
 # Installing dependencies for running x86_64 kernel
 RUN ( sleep 5 && while [ 1 ]; do sleep 1; echo y; done ) | ${ANDROID_HOME}/tools/android update sdk -a --no-ui --filter sys-img-x86-android-23
@@ -52,3 +52,4 @@ ADD stop-emulator.sh /home/teamcity/stop-emulator.sh
 RUN chmod +x /home/teamcity/start-emulator.sh && chmod +x /home/teamcity/stop-emulator.sh
 
 CMD ["/bin/bash","/entrypoint.sh"]
+
