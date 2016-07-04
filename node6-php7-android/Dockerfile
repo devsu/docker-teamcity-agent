@@ -18,6 +18,8 @@ ENV PATH ${PATH}:${ANDROID_HOME}/tools:${ANDROID_HOME}/platform-tools
 ENV ADB_INSTALL_TIMEOUT=8
 ENV ANDROID_AVD_HOME /home/teamcity/.android/avd
 
+ADD android-env.sh /etc/profile.d/android-env.sh
+
 # Install Android SDK
 RUN cd /opt && wget --output-document=android-sdk.tgz http://dl.google.com/android/android-sdk_r24.4.1-linux.tgz && tar xzf android-sdk.tgz && rm -f android-sdk.tgz
 
