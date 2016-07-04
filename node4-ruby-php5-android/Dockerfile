@@ -9,7 +9,7 @@ ARG DEBIAN_FRONTEND=noninteractive
 # Dependencies
 RUN dpkg --add-architecture i386
 RUN apt-get update \
-    && apt-get install -y --force-yes expect libc6-i386 lib32stdc++6 lib32gcc1 lib32ncurses5 lib32z1 libgl1-mesa-dev qemu-kvm libvirt-bin bridge-utils kmod qt5-default \
+    && apt-get install -y --force-yes expect libc6-i386 lib32stdc++6 lib32gcc1 lib32ncurses5 lib32z1 libgl1-mesa-dev qemu-kvm libvirt-bin bridge-utils kmod qt5-default mesa-utils file \
     && rm -rf /var/lib/apt/lists/*
 
 # Setup environment variables
@@ -18,7 +18,10 @@ ENV PATH ${PATH}:${ANDROID_HOME}/tools:${ANDROID_HOME}/platform-tools
 ENV ADB_INSTALL_TIMEOUT=8
 ENV ANDROID_AVD_HOME /home/teamcity/.android/avd
 
+# Fixing environment variables
 ADD ../common/android/android-env.sh /etc/profile.d/android-env.sh
+RUN echo export PATH=${PATH}:${ANDROID_HOME}/tools:${ANDROID_HOME}/platform-tools > /home/teamcity/.bashrc
+RUN chown teamcity /home/teamcity/.bashrc
 
 # Install Android SDK
 RUN cd /opt && wget --output-document=android-sdk.tgz http://dl.google.com/android/android-sdk_r24.4.1-linux.tgz && tar xzf android-sdk.tgz && rm -f android-sdk.tgz
