@@ -1,4 +1,4 @@
-FROM devsu/teamcity-agent:node4-ruby-php5
+FROM devsu/teamcity-agent:base
 MAINTAINER Cesar Salazar <csalazar@devsu.com>
 
 ARG TERM=linux
@@ -19,7 +19,7 @@ ENV ADB_INSTALL_TIMEOUT=8
 ENV ANDROID_AVD_HOME /home/teamcity/.android/avd
 
 # Fixing environment variables
-ADD ../common/android/android-env.sh /etc/profile.d/android-env.sh
+ADD android-env.sh /etc/profile.d/android-env.sh
 RUN echo export PATH=${PATH}:${ANDROID_HOME}/tools:${ANDROID_HOME}/platform-tools > /home/teamcity/.bashrc
 RUN chown teamcity /home/teamcity/.bashrc
 
@@ -49,16 +49,16 @@ ENV SCRIPTS /opt/scripts
 RUN mkdir -p ${SCRIPTS}
 
 # Trying to run emulator with HW acceleration
-ADD ../common/android/kvm-mknod.sh ${SCRIPTS}/kvm-mknod.sh
+ADD kvm-mknod.sh ${SCRIPTS}/kvm-mknod.sh
 
 # Setting scripts for emulator start and stop
-ADD ../common/android/start-emulator.sh ${SCRIPTS}/start-emulator.sh
-ADD ../common/android/stop-emulator.sh ${SCRIPTS}/stop-emulator.sh
+ADD start-emulator.sh ${SCRIPTS}/start-emulator.sh
+ADD stop-emulator.sh ${SCRIPTS}/stop-emulator.sh
 
 # Accepting licenses automatically
 RUN mkdir -p ${ANDROID_HOME}/licenses
-ADD ../common/android/*-license ${ANDROID_HOME}/licenses
+ADD *-license ${ANDROID_HOME}/licenses
 
 # Setting entrypoint
-ADD ../common/android/entrypoint.sh ${SCRIPTS}/entrypoint.sh
+ADD entrypoint.sh ${SCRIPTS}/entrypoint.sh
 CMD ["/bin/bash","${SCRIPTS}/entrypoint.sh"]
