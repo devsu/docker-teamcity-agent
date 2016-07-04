@@ -18,7 +18,7 @@ ENV PATH ${PATH}:${ANDROID_HOME}/tools:${ANDROID_HOME}/platform-tools
 ENV ADB_INSTALL_TIMEOUT=8
 ENV ANDROID_AVD_HOME /home/teamcity/.android/avd
 
-ADD android-env.sh /etc/profile.d/android-env.sh
+ADD ../common/android/android-env.sh /etc/profile.d/android-env.sh
 
 # Install Android SDK
 RUN cd /opt && wget --output-document=android-sdk.tgz http://dl.google.com/android/android-sdk_r24.4.1-linux.tgz && tar xzf android-sdk.tgz && rm -f android-sdk.tgz
@@ -42,15 +42,20 @@ RUN echo "no" | /opt/android-sdk-linux/tools/android create avd --force --device
 
 # RUN echo "no" | /opt/android-sdk-linux/tools/android create avd --force --device "Nexus 5" --name myandroid-23-nexus5 --target android-23 --abi "default/armeabi-v7a" --skin WVGA800 --sdcard 512M -p /home/teamcity/.android/avd
 
-# Trying to run emulator with HW acceleration
-ADD kvm-mknod.sh /kvm-mknod.sh
+ENV SCRIPTS /opt/scripts
+RUN mkdir -p ${SCRIPTS}
 
-ADD entrypoint.sh /entrypoint.sh
+# Trying to run emulator with HW acceleration
+ADD ../common/android/kvm-mknod.sh ${SCRIPTS}/kvm-mknod.sh
 
 # Setting scripts for emulator start and stop
-ADD start-emulator.sh /home/teamcity/start-emulator.sh
-ADD stop-emulator.sh /home/teamcity/stop-emulator.sh
+ADD ../common/android/start-emulator.sh ${SCRIPTS}/start-emulator.sh
+ADD ../common/android/stop-emulator.sh ${SCRIPTS}/stop-emulator.sh
 
-RUN chmod +x /home/teamcity/start-emulator.sh && chmod +x /home/teamcity/stop-emulator.sh
+# Accepting licenses automatically
+RUN mkdir -p ${ANDROID_HOME}/licenses
+ADD ../common/android/*-license ${ANDROID_HOME}/licenses
 
-CMD ["/bin/bash","/entrypoint.sh"]
+# Setting entrypoint
+ADD ../common/android/entrypoint.sh ${SCRIPTS}/entrypoint.sh
+CMD ["/bin/bash","${SCRIPTS}/entrypoint.sh"]
