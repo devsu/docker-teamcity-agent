@@ -61,4 +61,4 @@ ADD *-license ${ANDROID_HOME}/licenses/
 
 # Setting entrypoint
 ADD entrypoint.sh ${SCRIPTS}/entrypoint.sh
-CMD ["/bin/bash","${SCRIPTS}/entrypoint.sh"]
+CMD ["/bin/bash","/opt/scripts/entrypoint.sh"]
