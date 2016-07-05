@@ -57,7 +57,7 @@ ADD stop-emulator.sh ${SCRIPTS}/stop-emulator.sh
 
 # Accepting licenses automatically
 RUN mkdir -p ${ANDROID_HOME}/licenses
-ADD *-license ${ANDROID_HOME}/licenses
+ADD *-license ${ANDROID_HOME}/licenses/
 
 # Setting entrypoint
 ADD entrypoint.sh ${SCRIPTS}/entrypoint.sh
