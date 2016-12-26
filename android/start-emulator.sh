@@ -12,11 +12,8 @@ timeout_in_sec=360
 
 DEVICE_ID="myandroid-23-nexus5-x86"
 
-export ANDROID_HOME=/opt/android-sdk-linux
-export PATH=${PATH}:${ANDROID_HOME}/tools:${ANDROID_HOME}/platform-tools
-
 bootanim=`adb -e shell getprop init.svc.bootanim 2>&1 &`
-if [[ "$bootanim" =~ "device '(null)' not found" ]]; then
+if [[ "$bootanim" =~ "error: no emulators found" ]]; then
   echo "Starting the emulator"
   emulator64-x86 -avd $DEVICE_ID -noskin -no-audio -no-window -gpu off -qemu -m 1024 -enable-kvm > /dev/null 2>&1 &
   sleep 5
@@ -27,7 +24,7 @@ fi
 # Wait until started
 until [[ "$bootanim" =~ "stopped" ]]; do
   bootanim=`adb -e shell getprop init.svc.bootanim 2>&1 &`
-  if [[ "$bootanim" =~ "device '(null)' not found" || "$bootanim" =~ "device not found"
+  if [[ "$bootanim" =~ "error: no emulators found" || "$bootanim" =~ "device not found"
     || "$bootanim" =~ "device offline" || "$bootanim" =~ "running" ]]; then
     let "failcounter += 1"
     echo "Waiting for emulator to start"
